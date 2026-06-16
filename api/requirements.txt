@@ -21,4 +21,4 @@ youtube-transcript-api~=1.0.0
 azure-ai-documentintelligence
 azure-ai-contentunderstanding>=1.2.0b1
 azure-identity
-../packages/markitdown
+markitdown==0.1.6
