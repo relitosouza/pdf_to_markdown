@@ -8,7 +8,8 @@
     "dev:frontend": "npm --prefix packages/markitdown-web/frontend run dev",
     "dev:backend": ".venv/bin/uvicorn markitdown_web.main:app --app-dir packages/markitdown-web/src --reload",
     "dev": "concurrently -k -n \"frontend,backend\" -c \"cyan,green\" \"npm run dev:frontend\" \"npm run dev:backend\"",
-    "build:frontend": "npm --prefix packages/markitdown-web/frontend run build"
+    "build:frontend": "npm --prefix packages/markitdown-web/frontend run build",
+    "build": "npm run build:frontend"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"
