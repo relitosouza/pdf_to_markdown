@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MarkItDown - Conversor de PDF para Markdown Online</title>
+    <meta name="description" content="Converta arquivos PDF, Word, Excel, PowerPoint e muito mais para Markdown de forma simples, rápida e moderna com o Microsoft MarkItDown.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Marked.js for markdown rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header Section -->
+        <header class="app-header">
+            <div class="logo-area">
+                <span class="logo-icon">✨</span>
+                <span class="logo-text">Mark<span>It</span>Down</span>
+            </div>
+            <p class="subtitle">Converta seus arquivos para Markdown de maneira elegante para LLMs ou documentação</p>
+        </header>
+
+        <!-- Main Content Section -->
+        <main class="app-main">
+            <!-- Grid Layout -->
+            <div class="converter-grid">
+                
+                <!-- Left Panel: Upload Area & Information -->
+                <section class="panel upload-panel" id="upload-panel">
+                    <div class="panel-header">
+                        <h2>1. Enviar Arquivo</h2>
+                        <span class="step-badge">Etapa 1</span>
+                    </div>
+                    
+                    <!-- Drag & Drop Zone -->
+                    <div class="drop-zone" id="drop-zone">
+                        <div class="drop-zone-content">
+                            <div class="upload-icon">📂</div>
+                            <h3>Arraste e solte o arquivo aqui</h3>
+                            <p>ou clique para explorar suas pastas</p>
+                            <span class="file-limits">Suporta PDF, DOCX, XLSX, PPTX, TXT, etc.</span>
+                        </div>
+                        <input type="file" id="file-input" class="file-input" accept=".pdf,.docx,.xlsx,.pptx,.txt,.csv,.json,.epub,.xml" />
+                    </div>
+
+                    <!-- File Info Card (hidden by default) -->
+                    <div class="file-card hidden" id="file-card">
+                        <div class="file-card-icon" id="file-card-icon">📄</div>
+                        <div class="file-card-details">
+                            <span class="file-name" id="selected-file-name">documento.pdf</span>
+                            <span class="file-size" id="selected-file-size">2.4 MB</span>
+                        </div>
+                        <button type="button" class="remove-file-btn" id="remove-file-btn" title="Remover arquivo">✕</button>
+                    </div>
+
+                    <!-- Action Button -->
+                    <button type="button" class="action-btn disabled" id="convert-btn" disabled>
+                        <span>Converter para Markdown</span>
+                        <span class="btn-icon">⚡</span>
+                    </button>
+
+                    <!-- Info/Features Block -->
+                    <div class="info-block">
+                        <h4>Formatos Suportados</h4>
+                        <ul class="formats-list">
+                            <li><span class="badge pdf">PDF</span> Documentos portáteis</li>
+                            <li><span class="badge docx">Word</span> Documentos do Word (.docx)</li>
+                            <li><span class="badge pptx">PPTX</span> Apresentações PowerPoint</li>
+                            <li><span class="badge xlsx">Excel</span> Planilhas do Excel (.xlsx)</li>
+                            <li><span class="badge text">Outros</span> Textos, CSV, JSON, HTML, EPUB</li>
+                        </ul>
+                        <div class="security-note">
+                            <span class="shield-icon">🛡️</span>
+                            <p><strong>Privacidade Garantida:</strong> Os arquivos são processados na hora em memória e não ficam salvos permanentemente no servidor.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Right Panel: Conversion Result & Live View -->
+                <section class="panel result-panel" id="result-panel">
+                    <div class="panel-header">
+                        <h2>2. Resultado da Conversão</h2>
+                        <span class="step-badge">Etapa 2</span>
+                    </div>
+
+                    <!-- Editor/Preview Container -->
+                    <div class="editor-container" id="editor-container">
+                        <!-- Toolbar/Tabs -->
+                        <div class="toolbar">
+                            <div class="tabs">
+                                <button type="button" class="tab-btn active" id="tab-preview-btn">
+                                    👁️ Preview Formatado
+                                </button>
+                                <button type="button" class="tab-btn" id="tab-raw-btn">
+                                    📝 Markdown Bruto
+                                </button>
+                            </div>
+                            <div class="actions">
+                                <button type="button" class="tool-btn" id="copy-btn" title="Copiar para área de transferência">
+                                    📋 Copiar
+                                </button>
+                                <button type="button" class="tool-btn primary" id="download-btn" title="Baixar arquivo Markdown">
+                                    💾 Baixar .md
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Panel Views -->
+                        <div class="views-wrapper">
+                            <!-- Loading State -->
+                            <div class="loading-state hidden" id="loading-state">
+                                <div class="spinner"></div>
+                                <p>Processando o arquivo...</p>
+                                <span class="loading-subtitle">Executando análise estrutural com MarkItDown</span>
+                            </div>
+
+                            <!-- Empty State -->
+                            <div class="empty-state" id="empty-state">
+                                <div class="empty-icon">✨</div>
+                                <h3>Seu markdown aparecerá aqui</h3>
+                                <p>Faça o upload e converta um arquivo para ver a mágica acontecer</p>
+                            </div>
+
+                            <!-- Preview Formatted View -->
+                            <div class="view-content formatted-view markdown-body hidden" id="formatted-view">
+                                <!-- Rendered Markdown will go here -->
+                            </div>
+
+                            <!-- Raw Code View -->
+                            <div class="view-content raw-view hidden" id="raw-view">
+                                <textarea id="raw-markdown-output" readonly placeholder="Código Markdown aparecerá aqui..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+            </div>
+        </main>
+
+        <!-- Footer Section -->
+        <footer class="app-footer">
+            <p>Desenvolvido com 🤍 utilizando o Microsoft <strong>MarkItDown</strong> como base de processamento local.</p>
+        </footer>
+    </div>
+
+    <!-- Custom Script -->
+    <script src="app.js"></script>
+</body>
+</html>
