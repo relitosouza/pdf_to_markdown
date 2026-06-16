@@ -330,6 +330,7 @@ body::after {
     transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease, opacity 0.3s ease;
     position: relative;
     overflow: hidden;
+    width: 100%;
 }
 
 .action-btn::after {
@@ -615,6 +616,7 @@ body::after {
     color: #cbd5e1;
     font-size: 0.95rem;
     line-height: 1.7;
+    text-align: left;
 }
 
 .markdown-body h1, 

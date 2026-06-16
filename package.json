@@ -1,0 +1,16 @@
+{
+  "name": "pdf-to-markdown-root",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Root workspace directory for PDF to Markdown converter",
+  "scripts": {
+    "install:all": "npm install && npm --prefix packages/markitdown-web/frontend install",
+    "dev:frontend": "npm --prefix packages/markitdown-web/frontend run dev",
+    "dev:backend": ".venv\\Scripts\\uvicorn markitdown_web.main:app --app-dir packages/markitdown-web/src --reload",
+    "dev": "concurrently -k -n \"frontend,backend\" -c \"cyan,green\" \"npm run dev:frontend\" \"npm run dev:backend\"",
+    "build:frontend": "npm --prefix packages/markitdown-web/frontend run build"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
