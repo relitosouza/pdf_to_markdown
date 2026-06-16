@@ -6,7 +6,7 @@
   "scripts": {
     "install:all": "npm install && npm --prefix packages/markitdown-web/frontend install",
     "dev:frontend": "npm --prefix packages/markitdown-web/frontend run dev",
-    "dev:backend": ".venv\\Scripts\\uvicorn markitdown_web.main:app --app-dir packages/markitdown-web/src --reload",
+    "dev:backend": ".venv/bin/uvicorn markitdown_web.main:app --app-dir packages/markitdown-web/src --reload",
     "dev": "concurrently -k -n \"frontend,backend\" -c \"cyan,green\" \"npm run dev:frontend\" \"npm run dev:backend\"",
     "build:frontend": "npm --prefix packages/markitdown-web/frontend run build"
   },
